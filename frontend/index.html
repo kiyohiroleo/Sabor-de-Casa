@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Categorias | Sabor de Casa</title>
+  <link rel="stylesheet" href="./styles.css">
+  <script type="module" src="./categorias.js"></script>
+</head>
+<body>
+  <header class="cabecalho">
+    <div class="container cabecalho-conteudo">
+      <a class="marca" href="./index.html">
+        <span class="marca-icone" aria-hidden="true"></span>
+        Sabor de Casa
+      </a>
+      <nav aria-label="Navegação principal">
+        <a class="nav-link" href="./index.html" aria-current="page">Categorias</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="intro">
+      <div>
+        <h1>Categorias do <span>cardápio</span></h1>
+        <p>Agrupe os pratos do cardápio e acesse os itens de cada categoria.</p>
+      </div>
+      <button class="botao botao-primario" id="nova-categoria" type="button" disabled>
+        <span class="botao-icone" aria-hidden="true">+</span> Nova categoria
+      </button>
+    </div>
+
+    <p class="aviso aviso-sucesso" id="mensagem" role="status"></p>
+
+    <section class="painel" aria-labelledby="titulo-lista">
+      <div class="painel-cabecalho">
+        <h2 id="titulo-lista" tabindex="-1">Categorias cadastradas</h2>
+        <span class="resumo" id="total-categorias" hidden></span>
+      </div>
+      <p class="estado" id="carregando" role="status" hidden>Carregando categorias…</p>
+      <div class="estado" id="erro-lista" hidden>
+        <p class="aviso aviso-erro" id="mensagem-erro-lista" role="alert"></p>
+        <button class="botao botao-secundario" id="tentar-novamente" type="button">Tentar novamente</button>
+      </div>
+      <div class="estado" id="lista-vazia" hidden>
+        <p class="estado-titulo">Nenhuma categoria cadastrada</p>
+        <p>Use “Nova categoria” para adicionar a primeira.</p>
+      </div>
+      <ul class="categorias" id="categorias" role="list" hidden></ul>
+      <noscript><p class="estado">Ative o JavaScript para gerenciar as categorias.</p></noscript>
+    </section>
+  </main>
+
+  <template id="modelo-categoria">
+    <li class="categoria">
+      <div class="categoria-info">
+        <span class="categoria-icone" aria-hidden="true"></span>
+        <div class="categoria-texto">
+          <h3 class="categoria-nome"></h3>
+          <p class="categoria-pratos"></p>
+        </div>
+      </div>
+      <div class="categoria-acoes">
+        <a class="botao botao-secundario ver-pratos">Ver pratos <span aria-hidden="true">→</span></a>
+        <button class="botao botao-texto editar" type="button">Editar</button>
+        <button class="botao botao-texto botao-perigo-texto excluir" type="button">Excluir</button>
+      </div>
+    </li>
+  </template>
+
+  <dialog id="dialogo-categoria" aria-labelledby="titulo-formulario">
+    <form id="formulario-categoria" novalidate>
+      <h2 id="titulo-formulario">Nova categoria</h2>
+      <label for="nome">Nome da categoria</label>
+      <input id="nome" name="nome" type="text" autocomplete="off" required
+        aria-describedby="ajuda-nome erro-formulario" autofocus>
+      <p class="ajuda" id="ajuda-nome">Use de 2 a 80 caracteres.</p>
+      <p class="aviso aviso-erro" id="erro-formulario" role="alert"></p>
+      <div class="dialogo-acoes">
+        <button class="botao botao-secundario" type="button" data-cancelar>Cancelar</button>
+        <button class="botao botao-primario" type="submit">Salvar categoria</button>
+      </div>
+    </form>
+  </dialog>
+
+  <dialog id="dialogo-exclusao" aria-labelledby="titulo-exclusao" aria-describedby="descricao-exclusao">
+    <form id="formulario-exclusao">
+      <h2 id="titulo-exclusao">Excluir categoria?</h2>
+      <p class="dialogo-descricao" id="descricao-exclusao">
+        A categoria <strong id="nome-exclusao"></strong> será removida permanentemente.
+      </p>
+      <p class="aviso aviso-erro" id="erro-exclusao" role="alert"></p>
+      <div class="dialogo-acoes">
+        <button class="botao botao-secundario" type="button" data-cancelar autofocus>Cancelar</button>
+        <button class="botao botao-perigo" type="submit">Excluir categoria</button>
+      </div>
+    </form>
+  </dialog>
+</body>
+</html>
