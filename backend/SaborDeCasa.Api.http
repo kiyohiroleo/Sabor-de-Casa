@@ -1,0 +1,45 @@
+@baseUrl = http://localhost:5269
+
+### 1. Listar todas as categorias
+GET {{baseUrl}}/api/categorias
+Accept: application/json
+
+### 2. Criar uma nova categoria (Sucesso - 201 Created)
+POST {{baseUrl}}/api/categorias
+Content-Type: application/json
+
+{
+  "nome": "Sobremesas Caseiras"
+}
+
+### 3. Regra: Criar categoria com nome vazio (Erro 400 Bad Request)
+POST {{baseUrl}}/api/categorias
+Content-Type: application/json
+
+{
+  "nome": "   "
+}
+
+### 4. Regra: Criar categoria com nome repetido (Erro 409 Conflict)
+POST {{baseUrl}}/api/categorias
+Content-Type: application/json
+
+{
+  "nome": "Sobremesas Caseiras"
+}
+
+### 5. Atualizar categoria existente mantendo o próprio nome (Sucesso - 200 OK)
+PUT {{baseUrl}}/api/categorias/2
+Content-Type: application/json
+
+{
+  "nome": "Marmitas Fitness"
+}
+
+### 6. Regra: Excluir categoria que possui pratos vinculados (Erro 409 Conflict)
+DELETE {{baseUrl}}/api/categorias/1
+Accept: application/json
+
+### 7. Excluir categoria vazia (Sucesso - 200 OK)
+DELETE {{baseUrl}}/api/categorias/3
+Accept: application/json
