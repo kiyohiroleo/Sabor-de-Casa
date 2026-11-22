@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Pratos | Sabor de Casa</title>
+  <link rel="stylesheet" href="./styles.css">
+  <link rel="stylesheet" href="./pratos.css">
+  <script type="module" src="./pratos.js"></script>
+</head>
+<body>
+  <header class="cabecalho">
+    <div class="container cabecalho-conteudo">
+      <a class="marca" href="./index.html">
+        <span class="marca-icone" aria-hidden="true"></span>
+        Sabor de Casa
+      </a>
+      <nav aria-label="Navegação principal" class="nav-lista">
+        <a class="nav-link nav-link-inativo" href="./index.html">Categorias</a>
+        <a class="nav-link" href="./pratos.html" aria-current="page">Pratos</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="intro">
+      <div>
+        <h1>Pratos do <span>cardápio</span></h1>
+        <p>Cadastre, edite e organize os pratos por categoria, com nome, preço e disponibilidade.</p>
+      </div>
+      <button class="botao botao-primario" id="novo-prato" type="button" disabled>
+        <span class="botao-icone" aria-hidden="true">+</span> Novo prato
+      </button>
+    </div>
+
+    <p class="aviso aviso-sucesso" id="mensagem" role="status"></p>
+    <p class="aviso aviso-modo" id="aviso-mock" hidden>Modo de teste: os pratos são fictícios e ficam só na memória do navegador.</p>
+
+    <section class="painel" aria-labelledby="titulo-lista">
+      <div class="painel-cabecalho">
+        <h2 id="titulo-lista" tabindex="-1">Pratos cadastrados</h2>
+        <div class="painel-filtro">
+          <label for="filtro-categoria">Categoria</label>
+          <select id="filtro-categoria" disabled>
+            <option value="">Todas</option>
+          </select>
+          <span class="resumo" id="total-pratos" hidden></span>
+        </div>
+      </div>
+
+      <p class="estado" id="carregando" role="status" hidden>Carregando pratos…</p>
+      <div class="estado" id="erro-lista" hidden>
+        <p class="aviso aviso-erro" id="mensagem-erro-lista" role="alert"></p>
+        <button class="botao botao-secundario" id="tentar-novamente" type="button">Tentar novamente</button>
+      </div>
+      <div class="estado" id="sem-categorias" hidden>
+        <p class="estado-titulo">Cadastre uma categoria primeiro</p>
+        <p>Todo prato precisa pertencer a uma categoria.</p>
+        <a class="botao botao-secundario" href="./index.html">Ir para categorias</a>
+      </div>
+      <div id="grupos" hidden></div>
+      <noscript><p class="estado">Ative o JavaScript para gerenciar os pratos.</p></noscript>
+    </section>
+  </main>
+
+  <template id="modelo-grupo">
+    <section class="grupo">
+      <div class="grupo-cabecalho">
+        <h3 class="grupo-titulo"></h3>
+        <span class="grupo-contagem"></span>
+      </div>
+      <p class="grupo-vazio">Nenhum prato nesta categoria.</p>
+      <ul class="pratos" role="list"></ul>
+    </section>
+  </template>
+
+  <template id="modelo-prato">
+    <li class="prato">
+      <div class="prato-info">
+        <h4 class="prato-nome"></h4>
+        <p class="prato-meta">
+          <span class="prato-categoria"></span>
+          <span class="selo selo-indisponivel" hidden>Indisponível</span>
+        </p>
+      </div>
+      <p class="prato-preco"></p>
+      <div class="prato-acoes">
+        <button class="botao botao-texto editar" type="button">Editar</button>
+        <button class="botao botao-texto botao-perigo-texto excluir" type="button">Excluir</button>
+      </div>
+    </li>
+  </template>
+
+  <dialog id="dialogo-prato" aria-labelledby="titulo-formulario">
+    <form id="formulario-prato" novalidate>
+      <h2 id="titulo-formulario">Novo prato</h2>
+
+      <div class="campo">
+        <label for="nome">Nome do prato</label>
+        <input id="nome" name="nome" type="text" autocomplete="off" required maxlength="120"
+          aria-describedby="erro-nome">
+        <p class="erro-campo" id="erro-nome"></p>
+      </div>
+
+      <div class="campo">
+        <label for="preco">Preço (R$)</label>
+        <input id="preco" name="preco" type="text" inputmode="decimal" autocomplete="off" required
+          placeholder="0,00" aria-describedby="ajuda-preco erro-preco">
+        <p class="ajuda" id="ajuda-preco">Use vírgula ou ponto, por exemplo 25,90.</p>
+        <p class="erro-campo" id="erro-preco"></p>
+      </div>
+
+      <div class="campo">
+        <label for="categoria">Categoria</label>
+        <select id="categoria" name="categoriaId" required aria-describedby="erro-categoria">
+          <option value="">Selecione…</option>
+        </select>
+        <p class="erro-campo" id="erro-categoria"></p>
+      </div>
+
+      <div class="campo campo-checkbox">
+        <input id="disponivel" name="disponivel" type="checkbox" checked>
+        <label for="disponivel">Disponível no cardápio</label>
+      </div>
+
+      <p class="aviso aviso-erro" id="erro-formulario" role="alert"></p>
+      <div class="dialogo-acoes">
+        <button class="botao botao-secundario" type="button" data-cancelar>Cancelar</button>
+        <button class="botao botao-primario" type="submit">Salvar prato</button>
+      </div>
+    </form>
+  </dialog>
+
+  <dialog id="dialogo-exclusao" aria-labelledby="titulo-exclusao" aria-describedby="descricao-exclusao">
+    <form id="formulario-exclusao">
+      <h2 id="titulo-exclusao">Excluir prato?</h2>
+      <p class="dialogo-descricao" id="descricao-exclusao">
+        O prato <strong id="nome-exclusao"></strong> será removido permanentemente.
+      </p>
+      <p class="aviso aviso-erro" id="erro-exclusao" role="alert"></p>
+      <div class="dialogo-acoes">
+        <button class="botao botao-secundario" type="button" data-cancelar autofocus>Cancelar</button>
+        <button class="botao botao-perigo" type="submit">Excluir prato</button>
+      </div>
+    </form>
+  </dialog>
+</body>
+</html>
