@@ -28,10 +28,12 @@ builder.Services.AddCors(options =>
 var connectionString = Environment.GetEnvironmentVariable("DATABASE_URL")
     ?? builder.Configuration.GetConnectionString("DefaultConnection");
 
+
 if (!string.IsNullOrWhiteSpace(connectionString))
 {
     builder.Services.AddScoped<IDbConnectionFactory, PostgresConnectionFactory>();
     builder.Services.AddScoped<ICategoriaRepository, CategoriaRepository>();
+    builder.Services.AddScoped<IPratoRepository, PratoRepository>();
 }
 else
 {
@@ -39,6 +41,7 @@ else
 }
 
 builder.Services.AddScoped<ICategoriaService, CategoriaService>();
+builder.Services.AddScoped<IPratoService, PratoService>();
 
 var app = builder.Build();
 
