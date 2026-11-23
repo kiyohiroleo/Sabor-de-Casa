@@ -1,0 +1,227 @@
+/* Estilos específicos da página de pratos.
+   Carregue DEPOIS de styles.css: tudo aqui usa as variáveis (--terra, --verde, --borda…)
+   e as classes (.botao, .painel, .estado, .aviso, dialog…) definidas pela Pessoa 1. */
+
+.nav-lista {
+  display: flex;
+  gap: 6px;
+}
+
+.nav-link-inativo {
+  border-color: transparent;
+  background: transparent;
+  color: var(--texto-suave);
+}
+
+.nav-link-inativo:hover {
+  background: var(--fundo);
+  color: var(--terra);
+}
+
+.aviso-modo {
+  margin-bottom: 18px;
+  background: var(--terra-claro);
+  color: var(--terra);
+}
+
+.painel-filtro {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px 10px;
+}
+
+.painel-filtro label {
+  color: var(--texto-suave);
+  font-size: .875rem;
+  font-weight: 650;
+}
+
+select {
+  min-height: 42px;
+  padding: 8px 12px;
+  border: 1px solid color-mix(in srgb, var(--texto-suave) 38%, var(--borda));
+  border-radius: var(--raio-botao);
+  background: var(--superficie);
+  color: var(--texto);
+  font: inherit;
+  font-size: .875rem;
+}
+
+dialog select {
+  width: 100%;
+  min-height: 44px;
+  font-size: 1rem;
+}
+
+dialog select[aria-invalid="true"] {
+  border-color: var(--erro);
+}
+
+#grupos {
+  display: grid;
+  gap: 28px;
+}
+
+.grupo-cabecalho {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.grupo-titulo {
+  font-size: 1.15rem;
+  font-weight: 700;
+  letter-spacing: -.025em;
+  overflow-wrap: anywhere;
+}
+
+.grupo-contagem {
+  color: var(--texto-suave);
+  font-size: .8125rem;
+}
+
+.grupo-vazio {
+  padding: 18px;
+  border: 1px dashed var(--borda);
+  border-radius: var(--raio-painel);
+  color: var(--texto-suave);
+  font-size: .9rem;
+  text-align: center;
+}
+
+.pratos {
+  display: grid;
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.prato {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto auto;
+  align-items: center;
+  gap: 16px;
+  padding: 14px 16px 14px 20px;
+  border: 1px solid var(--borda);
+  border-radius: var(--raio-painel);
+  background: var(--superficie);
+  box-shadow: 0 4px 14px var(--sombra-leve);
+}
+
+.prato:hover,
+.prato:focus-within {
+  border-color: color-mix(in srgb, var(--terra) 26%, var(--borda));
+}
+
+.prato-nome {
+  margin: 0;
+  font-size: 1.02rem;
+  font-weight: 700;
+  letter-spacing: -.015em;
+  overflow-wrap: anywhere;
+}
+
+.prato-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin-top: 4px;
+  color: var(--texto-suave);
+  font-size: .875rem;
+}
+
+.prato-preco {
+  color: var(--verde);
+  font-size: 1.08rem;
+  font-weight: 750;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.prato-acoes {
+  display: flex;
+  gap: 4px;
+}
+
+.prato-indisponivel .prato-nome,
+.prato-indisponivel .prato-preco {
+  color: var(--texto-suave);
+}
+
+.selo {
+  padding: 2px 9px;
+  border-radius: 999px;
+  font-size: .75rem;
+  font-weight: 650;
+}
+
+.selo-indisponivel {
+  background: var(--erro-claro);
+  color: var(--erro);
+}
+
+/* formulário */
+.campo {
+  margin-bottom: 18px;
+}
+
+.campo .ajuda {
+  margin-top: 6px;
+}
+
+.erro-campo {
+  margin-top: 6px;
+  color: var(--erro);
+  font-size: .875rem;
+  font-weight: 600;
+}
+
+.erro-campo:empty {
+  display: none;
+}
+
+.campo-checkbox {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.campo-checkbox input {
+  width: 20px;
+  min-height: 20px;
+  height: 20px;
+  flex: 0 0 20px;
+  accent-color: var(--terra);
+}
+
+.campo-checkbox label {
+  margin: 0;
+}
+
+@media (max-width: 580px) {
+  .prato {
+    grid-template-columns: minmax(0, 1fr) auto;
+    padding: 14px;
+  }
+
+  .prato-acoes {
+    grid-column: 1 / -1;
+    padding-top: 8px;
+    border-top: 1px solid var(--borda);
+  }
+
+  .painel-cabecalho {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .painel-filtro {
+    justify-content: flex-start;
+  }
+}
